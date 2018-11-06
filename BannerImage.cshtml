@@ -1,0 +1,32 @@
+﻿@using System.Text
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    var html = new StringBuilder();
+    var imageId = Model.MacroParameters["ImageFile"].ToString();
+
+    if (!string.IsNullOrWhiteSpace(imageId))
+    {
+        //string imageUrl = Umbraco.Media(int.Parse(imageId)).Url;
+        var mediaItem = Umbraco.TypedMedia(int.Parse(imageId));
+        string imgAlt = Model.MacroParameters["ImageAlt"] != null ? Model.MacroParameters["ImageAlt"].ToString() : string.Empty;
+        string imgClass = Model.MacroParameters["ImageClass"] != null ? Model.MacroParameters["ImageClass"].ToString() : string.Empty;
+
+        if (mediaItem != null)
+        {
+            html.Append("<div>");
+            html.Append("<picture>");
+
+            html.AppendFormat("<source media='(min-width: 1025px)' srcset = '{0}' >", Url.GetCropUrl(mediaItem, "Banner_DesktopLarge"));
+            html.AppendFormat("<source media='(min-width: 769px)' srcset = '{0}' >", Url.GetCropUrl(mediaItem, "Banner_Desktop"));
+            html.AppendFormat("<source media='(min-width: 321px)' srcset = '{0}' >", Url.GetCropUrl(mediaItem, "Banner_Tablet"));
+            html.AppendFormat("<img src='{0}' alt='{1}' class='{2}' style='width:100%;height:auto;display:block;'>", Url.GetCropUrl(mediaItem, "Banner_Mobile"), imgAlt, imgClass);
+
+            html.Append("</picture>");
+            html.Append("</div>");
+        }
+    }
+
+    @Html.Raw(html.ToString())
+}
+
