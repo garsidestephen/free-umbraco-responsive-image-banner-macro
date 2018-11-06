@@ -1,4 +1,4 @@
-﻿@using System.Text
+@using System.Text
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 
 @{
@@ -7,7 +7,6 @@
 
     if (!string.IsNullOrWhiteSpace(imageId))
     {
-        //string imageUrl = Umbraco.Media(int.Parse(imageId)).Url;
         var mediaItem = Umbraco.TypedMedia(int.Parse(imageId));
         string imgAlt = Model.MacroParameters["ImageAlt"] != null ? Model.MacroParameters["ImageAlt"].ToString() : string.Empty;
         string imgClass = Model.MacroParameters["ImageClass"] != null ? Model.MacroParameters["ImageClass"].ToString() : string.Empty;
